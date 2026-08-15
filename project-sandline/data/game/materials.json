@@ -1,0 +1,9 @@
+{
+  "_comment": "Surface materials. One entry serves audio (footstep sets), bullet impact particles and penetration (design doc 64).",
+  "concrete": { "penetrationResistance": 0.75, "footstepLoudness": 1.0 },
+  "metal": { "penetrationResistance": 0.45, "footstepLoudness": 1.4 },
+  "wood": { "penetrationResistance": 0.2, "footstepLoudness": 0.8 },
+  "crate": { "penetrationResistance": 0.2, "footstepLoudness": 0.7 },
+  "glass": { "penetrationResistance": 0.1, "footstepLoudness": 0.5 },
+  "ground": { "penetrationResistance": 1.0, "footstepLoudness": 0.6 }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "project-sandline",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Project Sandline - a browser-based classic tactical round FPS. Clean-room original maps, art, audio and code.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "preview": "vite preview",
+    "validate:assets": "tsx tools/validate-assets.ts",
+    "validate:maps": "tsx tools/validate-map.ts",
+    "bench:movement": "tsx tools/bench-movement.ts",
+    "bench:weapons": "tsx tools/bench-weapons.ts",
+    "sim": "tsx tools/sim.ts"
+  },
+  "dependencies": {
+    "three": "^0.185.0"
+  },
+  "devDependencies": {
+    "@types/three": "^0.185.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vite": "^8.1.0",
+    "vitest": "^4.0.0"
+  }
+}

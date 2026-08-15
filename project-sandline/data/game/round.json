@@ -1,0 +1,16 @@
+{
+  "_comment": "Round timings, seconds. Reference rule version v1 (see docs/REFERENCE_MEASUREMENTS.md).",
+  "freezeTimeSec": 5,
+  "buyTimeSec": 15,
+  "roundTimeSec": 115,
+  "roundEndDelaySec": 4,
+  "bombPlantTimeSec": 3,
+  "bombDefuseTimeSec": 5,
+  "bombDefuseKitTimeSec": 3.5,
+  "bombTimerSec": 45,
+  "bombRadius": 12,
+  "bombDamage": 500,
+  "bombBeepStartSec": 10,
+  "maxRounds": 24,
+  "sideSwitchAtRound": 12
+}

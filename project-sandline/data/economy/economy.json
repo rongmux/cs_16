@@ -1,0 +1,13 @@
+{
+  "_comment": "Economy rules, reference version v1. Locked by sha256 in docs/REFERENCE_MEASUREMENTS.md.",
+  "startMoney": 800,
+  "maxMoney": 16000,
+  "winReward": 3250,
+  "lossRewardBase": 1400,
+  "lossRewardPerStreak": 500,
+  "lossRewardCap": 3400,
+  "bombPlantReward": 800,
+  "bombDefuseReward": 750,
+  "teamKillPenalty": 3300,
+  "teamDamagePenaltyPerHp": 10
+}
