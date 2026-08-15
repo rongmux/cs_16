@@ -6,6 +6,9 @@ coverage/
 *.log
 .DS_Store
 
+# Local git credential store (never commit tokens)
+.git-credentials
+
 # Reference game files must never enter the repository (design doc section 67)
 reference_game/
 *.bsp
