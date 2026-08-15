@@ -64,7 +64,7 @@ export class Match implements RoundHost, GameWorldApi {
     this.builtMap = buildMap(mapData);
     this.navGraph.build(this.builtMap.waypoints, this.builtMap.collision);
     this.bomb = new BombObjective(this.eventBus, mapData.bombSites, round);
-    this.roundManager = new RoundManager(round);
+    this.roundManager = new RoundManager({ ...round, maxRounds: settings.maxRounds || round.maxRounds });
     this.bots = new BotManager(this, settings.botDifficulty);
     this.wireEvents();
   }
@@ -101,8 +101,7 @@ export class Match implements RoundHost, GameWorldApi {
 
   buyingAllowed(): boolean {
     if (this.training) return true;
-    const snap = this.roundManager.snapshot();
-    return snap.phase === 'freeze' && snap.timer >= round.freezeTimeSec - round.buyTimeSec;
+    return this.roundManager.buyingAllowed();
   }
 
   enemiesOf(team: TeamId): PlayerEntity[] {

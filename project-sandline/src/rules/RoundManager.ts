@@ -56,6 +56,7 @@ export class RoundManager {
   bombActive = false;
   private ended = false;
   private freezeElapsed = 0;
+  private roundElapsed = 0;
 
   constructor(private params: RoundParams = round) {}
 
@@ -81,6 +82,7 @@ export class RoundManager {
     this.phase = 'freeze';
     this.timer = this.params.freezeTimeSec;
     this.freezeElapsed = 0;
+    this.roundElapsed = 0;
     this.winner = null;
     this.reason = '';
     this.ended = false;
@@ -91,15 +93,15 @@ export class RoundManager {
     host.eventBus.emit('round_start', { round: this.roundNumber });
   }
 
-  /** Buying allowed while in freeze and within buy time. */
-  buyingAllowed(nowInFreeze: number): boolean {
-    if (this.phase !== 'freeze') return false;
-    return nowInFreeze < this.params.buyTimeSec;
+  /** Buying allowed from round start until buy time runs out (live included). */
+  buyingAllowed(): boolean {
+    if (this.phase !== 'freeze' && this.phase !== 'live') return false;
+    return this.roundElapsed < this.params.buyTimeSec;
   }
 
-  /** Players frozen during freeze. */
+  /** Players frozen during anything but the live phase. */
   get frozen(): boolean {
-    return this.phase === 'freeze';
+    return this.phase !== 'live';
   }
 
   /** Dev / pause-menu restart: reset the current round without incrementing. */
@@ -107,6 +109,7 @@ export class RoundManager {
     this.phase = 'freeze';
     this.timer = this.params.freezeTimeSec;
     this.freezeElapsed = 0;
+    this.roundElapsed = 0;
     this.winner = null;
     this.reason = '';
     this.ended = false;
@@ -138,6 +141,7 @@ export class RoundManager {
   }
 
   update(dt: number, host: RoundHost): void {
+    this.roundElapsed += dt;
     switch (this.phase) {
       case 'freeze': {
         this.freezeElapsed += dt;
