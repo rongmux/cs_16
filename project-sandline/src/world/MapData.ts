@@ -37,6 +37,9 @@ export interface MapData {
   id: string;
   name: string;
   mode: GameMode;
+  /** Walkable rectangles [minX, maxX, minZ, maxZ] on the 1m grid. */
+  rooms: [number, number, number, number][];
+  /** Explicit solid boxes placed inside walkable rooms. */
   boxes: MapBoxDef[];
   spawns: { attackers: SpawnDef[]; defenders: SpawnDef[] };
   buyZones: ZoneDef[];
@@ -55,6 +58,7 @@ export function emptyMapData(id: string, name: string, mode: GameMode): MapData 
     id,
     name,
     mode,
+    rooms: [],
     boxes: [],
     spawns: { attackers: [], defenders: [] },
     buyZones: [],

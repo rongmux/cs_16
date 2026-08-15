@@ -118,6 +118,11 @@ export class PlayerEntity implements HitboxSource {
     return this.motor.crouching;
   }
 
+  /** Defuse kit accessor (BombActor interface). */
+  get defuseKit(): boolean {
+    return this.inventory.defuseKit;
+  }
+
   get standingHeight(): number {
     return movement.standingHeight;
   }

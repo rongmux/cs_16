@@ -91,10 +91,14 @@ export interface MaterialDef {
 export const movement: MovementParams = movementRaw;
 export const round: RoundParams = roundRaw;
 export const economy: EconomyParams = economyRaw;
-export const difficulties: Record<string, DifficultyParams> = difficultyRaw;
-export const materials: Record<string, MaterialDef> = materialsRaw;
+export const difficulties: Record<string, DifficultyParams> = Object.fromEntries(
+  Object.entries(difficultyRaw).filter(([k]) => k !== '_comment'),
+) as Record<string, DifficultyParams>;
+export const materials: Record<string, MaterialDef> = Object.fromEntries(
+  Object.entries(materialsRaw).filter(([k]) => k !== '_comment'),
+) as Record<string, MaterialDef>;
 export const weaponSpecs = weaponsRaw;
-export const difficultyIds: string[] = Object.keys(difficultyRaw);
+export const difficultyIds: string[] = Object.keys(difficulties);
 
 export const mapCatalog: { id: string; name: string; mode: string }[] = [
   { id: 'map_sandline', name: 'Sandline', mode: 'bomb' },

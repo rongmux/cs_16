@@ -28,6 +28,7 @@ export interface GameEventMap {
   bomb_defused: { site: string; playerId: number };
   bomb_exploded: { site: string };
   weapon_fired: { shooterId: number; weaponId: string; pos: Vec3; loudness: number };
+  bullet_impact: { pos: Vec3; normal: Vec3; material: string };
   grenade_thrown: { playerId: number; pos: Vec3 };
   grenade_exploded: { pos: Vec3; radius: number };
   footstep: { playerId: number; pos: Vec3; loudness: number };

@@ -167,9 +167,15 @@ export class RoundManager {
     const defendersAlive = players.some((p) => p.team === 'defenders' && p.alive);
 
     // Planted bomb: elimination does not cancel the bomb outcome.
-    if (host.bomb.state === 'planted' || host.bomb.state === 'defusing' || host.bomb.state === 'detonated') {
-      if (host.bomb.state === 'detonated') this.endRound('attackers', 'bomb_detonated', host);
-      if (host.bomb.state === 'defused') this.endRound('defenders', 'bomb_defused', host);
+    if (host.bomb.state === 'detonated') {
+      this.endRound('attackers', 'bomb_detonated', host);
+      return;
+    }
+    if (host.bomb.state === 'defused') {
+      this.endRound('defenders', 'bomb_defused', host);
+      return;
+    }
+    if (host.bomb.state === 'planted' || host.bomb.state === 'defusing') {
       return;
     }
     if (!attackersAlive) {

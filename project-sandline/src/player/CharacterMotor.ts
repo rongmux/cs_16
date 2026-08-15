@@ -3,7 +3,7 @@
 // with the fixed simulation step only - never with render deltaTime
 // (design doc 4.2, 9.3).
 
-import { Vec3, vec3, yawForward, yawRight, hypot } from '../core/math';
+import { Vec3, vec3, yawForward, yawRight } from '../core/math';
 import type { CollisionWorld } from '../world/CollisionWorld';
 import type { MovementParams } from '../world/DataFiles';
 
@@ -200,3 +200,5 @@ export class CharacterMotor {
 export function hypot(a: number, b: number): number {
   return Math.sqrt(a * a + b * b);
 }
+
+void hypot;
