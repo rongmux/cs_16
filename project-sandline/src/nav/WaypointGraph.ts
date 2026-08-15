@@ -135,6 +135,11 @@ export class WaypointGraph {
     return out;
   }
 
+  /** Neighbor list for debug drawing. */
+  adjacencyForDebug(i: number): number[] {
+    return this.adjacency[i] ?? [];
+  }
+
   /** Cheap connectivity check used by map validation. */
   nodesReachableFrom(start: Vec3): Set<number> {
     const startIdx = this.nearestNode(start);

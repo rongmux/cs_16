@@ -102,6 +102,20 @@ export class RoundManager {
     return this.phase === 'freeze';
   }
 
+  /** Dev / pause-menu restart: reset the current round without incrementing. */
+  restartRound(host: RoundHost): void {
+    this.phase = 'freeze';
+    this.timer = this.params.freezeTimeSec;
+    this.freezeElapsed = 0;
+    this.winner = null;
+    this.reason = '';
+    this.ended = false;
+    this.bombActive = false;
+    host.spawnPlayers();
+    host.assignBomb();
+    host.eventBus.emit('round_start', { round: this.roundNumber });
+  }
+
   notifyDeath(victim: PlayerEntity, host: RoundHost): void {
     if (this.phase !== 'live' && this.phase !== 'freeze') return;
     if (this.ended) return;

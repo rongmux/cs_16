@@ -1,11 +1,11 @@
-﻿// Match: the headless game orchestrator. Owns the world, players, bots,
+// Match: the headless game orchestrator. Owns the world, players, bots,
 // round manager, economy, buy system, bomb and grenades. Pure simulation -
 // no rendering, no DOM - so it runs identically in the browser, in vitest
 // and in the headless sim tool (design doc 4, 6.2).
 
 import { EventBus, TeamId, HitRegion } from '../core/EventBus';
 import { RNG } from '../core/RNG';
-import { Vec3, vec3, distXZ, normalize } from '../core/math';
+import { Vec3, vec3, distXZ, normalize, yawForward, yawRight } from '../core/math';
 import { CollisionWorld } from '../world/CollisionWorld';
 import { buildMap, BuiltMap } from '../world/MapBuilder';
 import { getMapData, movement, RoundParams, round } from '../world/DataFiles';
@@ -44,6 +44,9 @@ export class Match implements RoundHost, GameWorldApi {
   timeSec = 0;
   paused = false;
   training = false;
+  /** Dev flags (console). */
+  godMode = false;
+  noclip = false;
   settings: MatchSettings;
   humanId = 0;
   /** Command from the local player; set by GameApp each frame. */
@@ -301,7 +304,19 @@ export class Match implements RoundHost, GameWorldApi {
           this.throwGrenade(shooter, spec, power, dir),
         onUse: (player: PlayerEntity) => this.handleUse(player),
       };
-      p.update(dt, cmd, ctx);
+      if (this.noclip && p.id === this.humanId && p.alive) {
+        // Dev noclip: free movement through the world.
+        const f = yawForward(p.yaw);
+        const r = yawRight(p.yaw);
+        const sp = 9;
+        p.motor.pos.x += (f.x * cmd.forward + r.x * cmd.right) * sp * dt;
+        p.motor.pos.z += (f.z * cmd.forward + r.z * cmd.right) * sp * dt;
+        p.motor.pos.y += ((cmd.jump ? 1 : 0) - (cmd.crouch ? 1 : 0)) * sp * dt;
+        p.motor.vel = vec3(0, 0, 0);
+        p.update(dt, { ...cmd, forward: 0, right: 0, jump: false }, ctx);
+      } else {
+        p.update(dt, cmd, ctx);
+      }
       this.useHeld.set(p.id, cmd.use);
     }
 
@@ -395,6 +410,7 @@ export class Match implements RoundHost, GameWorldApi {
     region: HitRegion,
     distance: number,
   ): void {
+    if (this.godMode && victim.id === this.humanId) return;
     const dmg = victim.receiveDamage(spec, region, distance, shooter.id, this.timeSec);
     this.eventBus.emit('player_damage', {
       victimId: victim.id,
